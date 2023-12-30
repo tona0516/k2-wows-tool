@@ -123,7 +123,7 @@ def fetch_ships() -> dict[str, any]:
             params={
                 "application_id": APPID,
                 "language": "ja",
-                "fields": "type,tier,name,nation",
+                "fields": "type,tier,name",
                 "page_no": pageNo,
             },
         )
@@ -140,7 +140,6 @@ def fetch_ships() -> dict[str, any]:
                 "tier": value["tier"],
                 "type": value["type"],
                 "name": value["name"],
-                "nation": value["nation"],
             }
             for ship_id, value in encyc_ships["data"].items()
         )
@@ -149,8 +148,7 @@ def fetch_ships() -> dict[str, any]:
         key=lambda x: (
             x["tier"],
             SHIP_TYPE_PRIORITY[x["type"]],
-            x["nation"],
-            int(x["id"]),
+            x["name"],
         )
     )
 
@@ -159,7 +157,6 @@ def fetch_ships() -> dict[str, any]:
             "tier": ship["tier"],
             "type": ship["type"],
             "name": ship["name"],
-            "nation": ship["nation"],
         }
         for ship in ships
         if not (ship["name"].startswith("[") and ship["name"].endswith("]"))
