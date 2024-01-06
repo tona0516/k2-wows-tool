@@ -1,3 +1,4 @@
+# -*- coding: utf_8 -*-
 """クランメンバーの所持艦艇をCSVに出力する
 使い方: python own_ships_writer.py -- -K2-
 """
@@ -5,6 +6,7 @@ import requests
 from datetime import datetime
 import csv
 import argparse
+import codecs
 
 REGION = "asia"
 APPID = "13c400cd6d56dfe666688d93a2a45759"
@@ -165,6 +167,7 @@ def fetch_ships() -> dict[str, any]:
         if not (ship["name"].startswith("[") and ship["name"].endswith("]"))
     }
 
+
     print("完了")
     return ship_map
 
@@ -210,7 +213,7 @@ def output_as_csv(account_ids, player_map, ship_map):
     ]
 
     output_file_name = f"shiplist_{int(datetime.now().timestamp())}.csv"
-    with open(output_file_name, mode="w", newline="") as file:
+    with codecs.open(output_file_name, mode="w", encoding='cp932', errors='replace') as file:
         writer = csv.writer(file)
         writer.writerow(headers)
         writer.writerows(rows)
